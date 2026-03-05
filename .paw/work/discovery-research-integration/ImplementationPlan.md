@@ -30,12 +30,14 @@ The Discovery pipeline has five stages, each implemented as a pure markdown skil
 ## What We're NOT Doing
 
 - Research at Mapping, Journey Grounding, or Prioritization stages
-- Creating a separate `paw-discovery-research` skill — research subagent prompts are constructed inline within extraction/correlation skills (following mapping's delegation pattern but without a dedicated target skill, since web research instructions are stage-specific and simpler than code research)
+- Modifying downstream stages (Mapping, Journey Grounding, Prioritization) — all research enrichment is synthesized into Extraction.md and Correlation.md, which downstream stages already consume. This satisfies FR-009 and SC-006 by design.
+- Creating a separate `paw-discovery-research` skill — research subagent prompts are constructed inline within extraction/correlation skills. Trade-off: a dedicated skill would be consistent with the mapping→paw-code-research pattern and reusable, but extraction research (enrichment) and correlation research (feasibility) have distinct scopes, questions, and output structures that don't generalize cleanly into one skill. Inlining avoids premature abstraction and keeps stage-specific research instructions co-located with their consuming logic.
 - SDK-level Copilot research mode integration
 - Formal source credibility scoring system
 - Incremental re-research (full re-research on cascade)
 - TypeScript code changes (all changes are prompt/agent markdown)
-- Integration test additions (prompt-only changes with no behavioral contract changes in TypeScript)
+- Integration test additions (prompt-only changes with no behavioral contract changes in TypeScript — flagged as a known coverage gap; future behavioral changes should add tests)
+- Resolving pre-existing DiscoveryContext.md template inconsistency between init skill and workflow skill (CodeResearch Open Question 1) — both templates will receive the Research field addition consistently
 
 ## Phase Status
 
@@ -136,6 +138,7 @@ _(No unresolved phase candidates — all scope decisions finalized in Spec.md)_
   - After research completes, integrate feasibility signals into gap entries in Correlation.md — each gap section includes research-sourced feasibility context
   - Update Correlation.md YAML frontmatter (`SKILL.md:139-149`) to include `research_conducted: true/false`
   - Graceful degradation: if web_search fails or returns nothing useful, note limitation and proceed (FR-013)
+  - **Note**: Unlike extraction, correlation has no re-correlation flow in the skill — cascade invalidation of CorrelationResearch.md is handled at the agent level in Phase 4
 
 ### Success Criteria
 
