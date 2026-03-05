@@ -908,7 +908,7 @@ work_id: ${workId}
 created: 2024-01-15
 current_stage: journey_grounding
 review_policy: every-stage
-scoping_style: per-journey
+prioritization_mode: guided
 workflow_version: "2.0"
 ---
 
@@ -917,7 +917,7 @@ workflow_version: "2.0"
 ## Configuration
 - **Work ID**: ${workId}
 - **Review Policy**: every-stage
-- **Scoping Style**: per-journey
+- **Prioritization Mode**: guided
 `);
 
     // Seed Extraction.md with pain points (journey grounding reads from this, not source docs)
@@ -1162,11 +1162,11 @@ status: complete
 
 ## Feature-to-Journey Mapping
 
-| Feature ID | Journey | Required For | MVP Critical |
-|------------|---------|--------------|--------------|
-| F-1 | J-2 | Step 2 | Yes |
-| F-2 | J-1 | Step 2 | Yes |
-| F-3 | J-1, J-2 | All steps | No |
+| Feature ID | Journey | Required For | Notes |
+|------------|---------|--------------|-------|
+| F-1 | J-2 | Step 2 | Auth feature |
+| F-2 | J-1 | Step 2 | Performance feature |
+| F-3 | J-1, J-2 | All steps | Shared feature |
 `);
 
     // Seed Correlation.md for feature ID validation
@@ -1225,168 +1225,6 @@ function buildJourneyGroundingReviewPrompt(skillContent: string, workId: string)
     "- Apply quality checklist: pain point extraction, journey synthesis, source tracing, feature mapping",
     "- Return PASS if all criteria met, REVISE with specific feedback otherwise",
     "- Validate that feature IDs in mapping exist in Correlation.md",
-    "- Do NOT push to git or create PRs",
-    "",
-    "Reference skill documentation:",
-    skillContent,
-  ].join("\n");
-}
-
-// ============================================================================
-// Journey Scoping Tests
-// ============================================================================
-
-describe("discovery workflow - journey scoping", { timeout: 180_000 }, () => {
-  let ctx: TestContext;
-
-  after(async () => {
-    if (ctx) { await destroyTestContext(ctx); }
-  });
-
-  it("adds MVP depth annotations to JourneyMap.md", async () => {
-    const scopingSkill = await loadSkill("paw-discovery-journey-scoping");
-    const workId = "test-journey-scoping";
-
-    // Answer scoping questions with specific depths
-    const answerer = new RuleBasedAnswerer([
-      (req) => {
-        // When asked about MVP depth for a journey
-        if (/mvp|depth|scope|partial|full|minimal/i.test(req.question)) {
-          return req.choices?.[0] ?? "Partial";
-        }
-        return req.choices?.[0] ?? "yes";
-      },
-    ], false);
-
-    ctx = await createTestContext({
-      fixtureName: "minimal-ts",
-      skillOrAgent: "discovery-journey-scoping",
-      systemPrompt: buildJourneyScopingPrompt(scopingSkill, workId),
-      answerer,
-    });
-
-    // Seed prerequisite artifacts
-    const contextDir = join(ctx.fixture.workDir, `.paw/discovery/${workId}`);
-    await mkdir(contextDir, { recursive: true });
-
-    // Seed DiscoveryContext.md with scoping_style
-    await writeFile(join(contextDir, "DiscoveryContext.md"), `---
-work_id: ${workId}
-scoping_style: per-journey
-workflow_version: "2.0"
----
-
-# Discovery Context
-
-## Configuration
-- **Scoping Style**: per-journey
-`);
-
-    // Seed JourneyMap.md without MVP depth annotations
-    await writeFile(join(contextDir, "JourneyMap.md"), `---
-work_id: ${workId}
-pain_point_count: 2
-journey_count: 2
-status: complete
----
-
-# Journey Map
-
-## Pain Points
-
-### PP-1: Login Friction
-User frustration with password entry.
-
-### PP-2: Slow Dashboard
-Performance complaints.
-
-## User Journeys
-
-### J-1: Quick Stats Check
-
-- **Goal**: View daily statistics
-- **Addresses**: PP-2
-
-#### Steps
-1. Open dashboard
-2. Wait for load
-3. View stats
-
-#### MVP Options
-- **Full**: All statistics, charts, history
-- **Partial**: Key stats only, no charts
-- **Minimal**: Single number summary
-
-### J-2: Seamless Login
-
-- **Goal**: Frictionless login
-- **Addresses**: PP-1
-
-#### Steps
-1. Return to app
-2. Auto-authenticated
-3. Proceed to dashboard
-
-#### MVP Options
-- **Full**: Remember-me, OAuth, SSO
-- **Partial**: Remember-me only
-- **Minimal**: Session persistence only
-
-## Feature-to-Journey Mapping
-
-| Feature ID | Journey | Required For | MVP Critical |
-|------------|---------|--------------|--------------|
-| F-1 | J-2 | Step 2 | TBD |
-| F-2 | J-1 | Step 2 | TBD |
-`);
-
-    // Run scoping
-    await ctx.session.sendAndWait({
-      prompt: [
-        "Run the Journey Scoping checkpoint.",
-        "",
-        `The discovery work directory is: .paw/discovery/${workId}/`,
-        "Read JourneyMap.md and DiscoveryContext.md.",
-        "For each journey, ask the user to select MVP depth (Full/Partial/Minimal).",
-        "Update JourneyMap.md with MVP depth annotations.",
-        "Update the Feature-to-Journey Mapping MVP Critical column.",
-      ].join("\n"),
-    }, 120_000);
-
-    // Assert JourneyMap.md was updated with MVP depth
-    const journeyMapPath = join(contextDir, "JourneyMap.md");
-    let journeyMapContent: string;
-    try {
-      journeyMapContent = await readFile(journeyMapPath, "utf-8");
-    } catch {
-      assert.fail(`JourneyMap.md not found at ${journeyMapPath}`);
-    }
-
-    // Should have MVP Depth annotations
-    assert.match(
-      journeyMapContent,
-      /mvp\s*depth|scoped|partial|full|minimal/im,
-      "JourneyMap.md should have MVP depth annotations",
-    );
-
-    // Verify no forbidden operations
-    assertToolCalls(ctx.toolLog, {
-      forbidden: ["git_push"],
-      bashMustNotInclude: [/git push/],
-    });
-  });
-});
-
-function buildJourneyScopingPrompt(skillContent: string, workId: string): string {
-  return [
-    "You are a PAW Discovery journey scoping agent. Your job is to interactively scope MVP depth for each journey.",
-    "",
-    "IMPORTANT RULES:",
-    `- Read JourneyMap.md from .paw/discovery/${workId}/`,
-    `- Read DiscoveryContext.md from .paw/discovery/${workId}/ for scoping_style`,
-    "- For each journey, present MVP options and ask user to select depth",
-    "- Update JourneyMap.md with MVP Depth field for each journey",
-    "- Update Feature-to-Journey Mapping MVP Critical column based on scope",
     "- Do NOT push to git or create PRs",
     "",
     "Reference skill documentation:",
@@ -1455,7 +1293,7 @@ status: complete
 | Mobile | F-3 | Gap |
 `);
 
-    // Seed JourneyMap.md with scoped journeys
+    // Seed JourneyMap.md with journeys (pure vision - no scoping fields)
     await writeFile(join(contextDir, "JourneyMap.md"), `---
 work_id: ${workId}
 pain_point_count: 2
@@ -1476,20 +1314,32 @@ Severity: Medium
 ## User Journeys
 
 ### J-1: Quick Stats
-- **MVP Depth**: Partial
-- **Scoped**: Partial
+
+- **Goal**: View daily statistics quickly
+- **Addresses**: PP-2
+
+#### Steps
+1. Open dashboard
+2. Wait for load
+3. View stats
 
 ### J-2: Seamless Login
-- **MVP Depth**: Full
-- **Scoped**: Full
+
+- **Goal**: Log in without friction
+- **Addresses**: PP-1
+
+#### Steps
+1. Return to app
+2. Auto-authenticated
+3. Proceed to dashboard
 
 ## Feature-to-Journey Mapping
 
-| Feature ID | Journey | MVP Critical |
-|------------|---------|--------------|
-| F-1 | J-2 | Yes |
-| F-2 | J-1 | Yes |
-| F-3 | J-1, J-2 | No |
+| Feature ID | Feature Name | Required For Journeys | Notes |
+|------------|-------------|----------------------|-------|
+| F-1 | Auth | J-2 | Login feature |
+| F-2 | Performance | J-1 | Dashboard perf |
+| F-3 | Mobile | J-1, J-2 | Cross-cutting |
 `);
 
     // Run prioritization
@@ -1565,9 +1415,9 @@ function buildJourneyPrioritizePrompt(skillContent: string, workId: string): str
     `- Write output to .paw/discovery/${workId}/Roadmap.md`,
     "- Apply multi-factor prioritization:",
     "  - Base factors (1-5): Value, Effort, Dependencies, Risk, Leverage",
-    "  - Journey factors (6-8): Criticality, Pain Severity, MVP Scope",
+    "  - Journey factors (6-8): Criticality, Pain Severity, Scoped Depth",
+    "- Derive scoping from journey step data",
     "- Include journey rationale in priority decisions",
-    "- Features marked MVP Critical in JourneyMap.md get priority boost",
     "- Do NOT push to git or create PRs",
     "",
     "Reference skill documentation:",

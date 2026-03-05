@@ -14,6 +14,8 @@ Apply scoping and multi-factor prioritization to produce a ranked MVP roadmap. T
 Read DiscoveryContext.md for:
 - `Prioritization Mode`: `interactive` | `guided` | `autonomous`
 
+If `Prioritization Mode` is missing or unrecognized, default to `guided`.
+
 ## Capabilities
 
 - Read Correlation.md for theme-capability relationships
@@ -150,7 +152,7 @@ Read `Prioritization Mode` from DiscoveryContext.md Configuration section.
 
 ### Interactive Mode
 
-User makes explicit scoping and prioritization decisions. The agent presents each journey with depth options for the user to choose, scopes features accordingly, then presents the full prioritized roadmap for validation. One adjustment pass before finalizing.
+User makes explicit scoping and prioritization decisions. The agent presents each journey with depth options for the user to choose, scopes features accordingly, then presents the full prioritized roadmap for validation. If the user skips remaining journeys, default unscoped journeys to Full depth. One adjustment pass before finalizing.
 
 ### Guided Mode
 
