@@ -9,7 +9,7 @@ PAW Discovery transforms input documents into actionable MVP roadmaps through a 
 
 Discovery Research Integration introduces opt-in web research at two stages — Extraction and Correlation — each with a distinct purpose. At Extraction, research enriches theme understanding with external context: industry standards, common approaches, terminology clarification, and prior art. At Correlation, research assesses the feasibility of identified gaps: existing libraries, implementation patterns, and ecosystem solutions. Research runs before artifact creation so the main artifacts (Extraction.md, Correlation.md) are synthesized with research findings. Separate research provenance files preserve source traceability.
 
-The feature follows established Discovery patterns — init-time configuration (like Prioritization Mode), per-stage execution modes (autonomous/guided/skip), subagent delegation (like Mapping's code research), and extended review criteria. When research is disabled, all stages behave exactly as they do today.
+The feature follows established Discovery patterns — familiar configuration at init time, per-stage execution modes (autonomous/guided/skip), delegation to research agents, and extended review criteria. When research is disabled, all stages behave exactly as they do today.
 
 ## Objectives
 
@@ -104,7 +104,7 @@ Acceptance Scenarios:
 - SC-003: Extraction with research produces an Extraction.md containing insights not present in input documents, traceable to external sources via ExtractionResearch.md (FR-003, FR-004, FR-008)
 - SC-004: Correlation with research produces a Correlation.md with feasibility context for gaps, traceable to external sources via CorrelationResearch.md (FR-005, FR-006, FR-008)
 - SC-005: In guided mode, the user can narrow research scope to selected themes or gaps before research executes (FR-007)
-- SC-006: Downstream stages (Mapping, Journey Grounding, Prioritization) produce the same quality output regardless of whether they read research artifacts directly — all enrichment is already in the main artifacts (FR-009)
+- SC-006: Downstream stages (Mapping, Journey Grounding, Prioritization) produce valid output without directly consuming research artifacts — all enrichment is already synthesized into the main artifacts they read (FR-009)
 - SC-007: Reviews detect and report on research integration quality (source credibility, integration completeness, source differentiation) when research was conducted (FR-010)
 - SC-008: With research disabled, all stages produce output identical to current behavior — no observable difference (FR-011)
 - SC-009: Re-extraction with changed inputs invalidates research artifacts alongside main artifacts (FR-012)
@@ -139,7 +139,7 @@ Out of Scope:
 
 - Existing Discovery workflow pipeline (Extraction → Mapping → Correlation → Journey Grounding → Prioritization)
 - `web_search` tool availability in the agent execution environment
-- Subagent delegation capability (task tool with general-purpose agent type)
+- Subagent delegation capability for research agents
 - DiscoveryContext.md configuration infrastructure
 - Existing review skill framework
 
