@@ -17,6 +17,7 @@ Cross-reference extracted themes with mapped codebase capabilities to identify r
 - Identify direct matches (theme maps to existing capability)
 - Identify gaps (theme requires new capability)
 - Identify combinations (multiple capabilities combine for larger outcome)
+- Optional web research to assess gap feasibility (when research enabled)
 - Surface relevance mismatches for user confirmation
 - Generate Correlation.md artifact
 
@@ -130,6 +131,80 @@ Add effort notes to correlation entries:
 - **Effort Note**: Requires Python LSP changes (cross-component)
 ```
 
+## Research Phase (Optional)
+
+After initial correlation analysis (match/gap identification and effort checks) and before artifact creation, optionally investigate gap feasibility via web research. This phase only runs when `Research` is set to `autonomous` or `guided` in DiscoveryContext.md. When `disabled`, skip this section entirely — no behavioral change.
+
+### Execution Modes
+
+Read the `Research` field from DiscoveryContext.md Configuration section to determine mode:
+
+- **Autonomous**: Agent researches all identified gaps (and optionally partial matches with unclear feasibility)
+- **Guided**: Agent presents gaps with a recommendation of which to research (e.g., "These 3 gaps would benefit most from feasibility research: [gap list]"). User confirms, adjusts the selection, or skips.
+
+### Research Delegation
+
+Delegate research to a subagent following the mapping delegation pattern:
+
+```
+task(
+  agent_type: "general-purpose",
+  description: "Correlation research for Discovery",
+  prompt: "<research prompt>"
+)
+```
+
+The research prompt instructs the subagent to:
+- Use `web_search` tool to investigate specified gaps
+- Focus on **feasibility**: existing libraries, implementation patterns, ecosystem solutions, integration approaches, effort indicators
+- NOT enrich theme understanding (that's extraction research's scope)
+- Produce `CorrelationResearch.md` at `.paw/discovery/<work-id>/CorrelationResearch.md`
+
+### CorrelationResearch.md Format
+
+```markdown
+---
+date: [ISO timestamp]
+work_id: [work-id]
+gaps_researched: [count]
+status: complete
+---
+
+# Correlation Research: [Work Title]
+
+## Research Scope
+[Which gaps were researched and why]
+
+## Findings
+
+### [Theme ID]: [Theme Name] (Gap)
+- **Gap Description**: [What capability is missing]
+- **Feasibility Assessment**: [Off-the-shelf / requires custom / hybrid]
+- **Existing Solutions**: [Libraries, services, patterns found]
+- **Effort Indicators**: [Complexity signals from research]
+- **Sources**: [URLs and brief descriptions]
+
+### [Theme ID]: [Theme Name] (Gap)
+...
+
+## Gaps Not Researched
+[List gaps that were skipped and why — small scope, user excluded, etc.]
+```
+
+### Integration into Correlation
+
+After research completes, enrich gap entries in Correlation.md with feasibility context:
+- Add `Feasibility` field to gap sections with research-sourced assessment
+- Add `Research: [brief finding]` to gap entries in the correlation matrix Notes column
+- If research reveals a gap actually has off-the-shelf solutions, note this — but do NOT change the correlation type (the codebase still lacks the capability)
+
+### Graceful Degradation
+
+If `web_search` is unavailable, returns errors, or yields no useful results:
+- Note the limitation in CorrelationResearch.md
+- Proceed to artifact creation without feasibility context
+- Do NOT block correlation on research failures
+
 ## Correlation.md Artifact
 
 Save to: `.paw/discovery/<work-id>/Correlation.md`
@@ -146,6 +221,7 @@ match_count: [direct matches]
 gap_count: [gaps]
 combination_count: [combinations]
 partial_count: [partial matches]
+research_conducted: true  # only include this field when research was conducted
 status: complete
 ---
 
@@ -181,6 +257,7 @@ status: complete
 - **Theme**: [F2 description]
 - **Why Gap**: [Why no capability matches]
 - **New Work Required**: [What needs to be built]
+- **Feasibility**: [If research conducted: off-the-shelf / requires custom / hybrid — with source]
 
 ...
 
@@ -241,6 +318,7 @@ If all themes are gaps (no matching capabilities):
 - [ ] Relevance issues surfaced (if any)
 - [ ] YAML frontmatter counts are accurate
 - [ ] Strategic insights section provides value for prioritization
+- [ ] If research enabled: CorrelationResearch.md created and feasibility context added to gap entries
 
 ## Completion Response
 
@@ -248,4 +326,5 @@ Report to PAW Discovery agent:
 - Artifact path: `.paw/discovery/<work-id>/Correlation.md`
 - Correlation summary (X matches, Y gaps, Z combinations)
 - Relevance assessment (aligned / mismatch resolved)
+- Research conducted: yes/no (if yes: `.paw/discovery/<work-id>/CorrelationResearch.md`)
 - Ready for correlation review

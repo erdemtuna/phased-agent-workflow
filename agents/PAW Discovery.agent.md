@@ -83,7 +83,7 @@ Compare current `inputs/` file list with `last_extraction_inputs` in DiscoveryCo
 ### Cascade Invalidation
 
 When extraction re-runs:
-1. Mark downstream artifacts as stale (CapabilityMap.md, Correlation.md, Roadmap.md)
+1. Mark downstream artifacts as stale (ExtractionResearch.md, CapabilityMap.md, Correlation.md, CorrelationResearch.md, JourneyMap.md, Roadmap.md)
 2. Update DiscoveryContext.md `stages_requiring_rerun` field
 3. Notify user which stages will re-run
 
@@ -111,6 +111,7 @@ User can request re-extraction:
 - `paw-discovery-prioritize-review`
 - `paw-discovery-final-review` (SoT-capable)
 - `paw-code-research` (invoked by mapping skill)
+- Research subagents (invoked by extraction and correlation skills when research is enabled)
 
 ### SoT Review Type
 
