@@ -110,16 +110,22 @@ From JourneyMap.md Pain Points section: cross-reference which pain points the fe
 
 Scope decisions are made during this stage based on the configured Prioritization Mode (see Execution Modes below). The agent analyzes journey steps to determine which features are needed at different depth levels.
 
+### Depth Derivation
+
+When scoping journeys, classify steps into depth levels based on journey structure:
+- **Full**: All journey steps included
+- **Partial**: Core steps that deliver the primary user goal, excluding extended/optional steps
+- **Minimal**: Only the essential steps required to address the primary pain point
+
+Determine boundaries from step dependencies and feature criticality — steps addressing High-severity pain points form the minimal core.
+
 ## JourneyMap.md Fallback Behavior
 
-When JourneyMap.md is absent (e.g., skipped Journey Grounding stage):
+When JourneyMap.md is absent or incomplete (e.g., skipped Journey Grounding stage, or missing `## User Journeys` / `## Feature-to-Journey Mapping` sections):
 
 - **Factors 6-8**: Mark as N/A in scoring; omit journey-related rationale from Roadmap.md
 - **Scoping**: Skip — no journeys to scope
 - **Priority calculation**: Use base factors (1-5) only
-- **Roadmap descriptions**: No journey criticality references; rely on correlation type and capability alignment
-
-This ensures backward compatibility with workflows that skip Journey Grounding.
 
 ## Journey Factor Integration
 
@@ -144,37 +150,15 @@ Read `Prioritization Mode` from DiscoveryContext.md Configuration section.
 
 ### Interactive Mode
 
-User walks through scoping and prioritization decisions together:
-
-1. Read Correlation.md and JourneyMap.md
-2. Analyze journey steps to identify depth levels (which steps are core vs. extended)
-3. Present each journey with depth options and ask user for scope decision
-4. After all journeys are scoped, score items against all 8 factors
-5. Present full prioritized roadmap
-6. Offer single adjustment opportunity before finalizing
+User makes explicit scoping and prioritization decisions. The agent presents each journey with depth options for the user to choose, scopes features accordingly, then presents the full prioritized roadmap for validation. One adjustment pass before finalizing.
 
 ### Guided Mode
 
-User provides high-level direction; agent applies scoping and prioritization:
-
-1. Read Correlation.md and JourneyMap.md
-2. Ask user for high-level guidance (e.g., "focus on onboarding journeys, defer admin features")
-3. Apply guidance to determine journey depths and feature scoping
-4. Score items against all 8 factors
-5. Present full roadmap
-6. Offer single adjustment opportunity before finalizing
+User provides high-level direction (e.g., "focus on onboarding, defer admin features"). The agent interprets guidance to determine journey depths and feature scoping, then generates the complete roadmap. One adjustment pass before finalizing.
 
 ### Autonomous Mode
 
-Agent makes all scoping and prioritization decisions:
-
-1. Read Correlation.md and JourneyMap.md
-2. Auto-scope journeys based on pain severity and feature criticality:
-   - Journeys addressing High-severity pain points → deeper scope
-   - Journeys addressing Low-severity pain points → minimal scope
-3. Score items against all 8 factors
-4. Generate and present final roadmap
-5. Offer single adjustment opportunity before finalizing
+Agent determines all scoping and prioritization decisions based on pain severity and feature criticality. Higher-severity pain points drive deeper journey scope. Presents final roadmap with one adjustment opportunity.
 
 ### Priority Categories (Not Numbers)
 

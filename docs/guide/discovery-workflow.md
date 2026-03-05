@@ -124,8 +124,9 @@ Merges scoping and prioritization into a single stage with configurable executio
 3. **Effort Estimate** — Implementation complexity (T-shirt sizing)
 4. **Dependencies** — What must be built first
 5. **Risk Assessment** — Technical and business risks
-6. **Journey Criticality** — Is the feature required for an MVP-scoped journey?
+6. **Journey Criticality** — Is the feature required for a user journey?
 7. **Pain Point Severity** — How severe is the problem this feature addresses?
+8. **Scoped Depth** — Is the feature within the MVP depth selected for its journey?
 
 **Output**: `Roadmap.md`
 

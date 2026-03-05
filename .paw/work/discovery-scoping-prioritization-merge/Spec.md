@@ -16,8 +16,7 @@ The result is a streamlined five-stage analytical pipeline (down from six) where
 - Eliminate redundant user decision points by consolidating scoping and prioritization into a single stage
 - Establish JourneyMap as a pure analytical artifact with no delivery-decision fields
 - Provide flexible execution modes (interactive/guided/autonomous) for the merged prioritization stage
-- Maintain backward compatibility when JourneyMap lacks journey data (base-factor-only fallback)
-- Reduce the Discovery stage count from 12 to 10 (removing scoping + scoping review)
+- Reduce the Discovery stage count from 12 to 11 (removing scoping)
 
 ## User Scenarios & Testing
 
@@ -43,8 +42,6 @@ Acceptance Scenarios:
 1. Given a Roadmap.md containing scoping decisions, When the prioritize-review runs, Then it checks that depth decisions are coherent across journeys and that the priority ranking respects scoping constraints.
 
 ### Edge Cases
-- A Discovery workflow created before this change has a JourneyMap with MVP Options fields — the prioritization stage should still work (backward compatibility via base-factor fallback).
-- A user selects `prioritization_mode: interactive` with `review_policy: final-only` — this is allowed; the interactive mode applies only within the prioritization stage itself.
 - JourneyMap.md is absent entirely — prioritization uses base factors (1-5) only, same as current fallback behavior.
 
 ## Requirements
@@ -65,7 +62,6 @@ Acceptance Scenarios:
 - FR-012: All six combinations of `review_policy` × `prioritization_mode` are allowed without restriction (Stories: P1)
 
 ### Cross-Cutting / Non-Functional
-- Backward compatibility: If JourneyMap.md contains legacy MVP Options fields, the prioritization skill ignores them gracefully and discovers scope options from journey step data instead
 - Token efficiency: The merged prioritization skill should not significantly increase prompt size compared to the combined old scoping + prioritization skills
 
 ## Success Criteria
