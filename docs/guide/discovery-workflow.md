@@ -70,9 +70,10 @@ Processes all documents in `inputs/` to extract themes, requirements, and decisi
 - Converts `.docx` files to markdown
 - Extracts text from PDF files
 - Identifies themes across documents with source attribution
+- Optionally enriches themes with web research (when research is enabled)
 - Produces `Extraction.md` with structured findings
 
-**Output**: `Extraction.md`
+**Output**: `Extraction.md` (and optionally `ExtractionResearch.md`)
 
 ### Stage 2: Mapping
 
@@ -96,8 +97,9 @@ Cross-references extracted themes with mapped capabilities:
 - Finds **gaps** requiring new implementation
 - Spots **combination opportunities** where features can share infrastructure
 - Flags **conflicts** needing resolution
+- Optionally assesses gap feasibility via web research (when research is enabled)
 
-**Output**: `Correlation.md`
+**Output**: `Correlation.md` (and optionally `CorrelationResearch.md`)
 
 ### Stage 4: Journey Grounding
 
@@ -139,8 +141,10 @@ All artifacts are created in your Discovery work directory:
 ├── inputs/              # Your input documents
 ├── DiscoveryContext.md  # Workflow state and configuration
 ├── Extraction.md        # Themes with source attribution
+├── ExtractionResearch.md # Web research provenance (when research enabled)
 ├── CapabilityMap.md     # Codebase capabilities inventory
 ├── Correlation.md       # Theme ↔ capability connections
+├── CorrelationResearch.md # Gap feasibility research provenance (when research enabled)
 ├── JourneyMap.md        # Pain points, user journeys, feature mapping
 └── Roadmap.md           # Prioritized MVP items
 ```
@@ -179,6 +183,23 @@ Discovery supports the same review policies as PAW Implementation:
 | `final-only` | Only pause at Roadmap completion |
 
 Each stage includes a mandatory review skill regardless of policy.
+
+## Research (Optional)
+
+Discovery supports opt-in web research to enrich themes and assess gap feasibility:
+
+| Setting | Behavior |
+|---------|----------|
+| `enabled` | Extraction and Correlation stages offer web research |
+| `disabled` (default) | Standard behavior, no web research |
+
+When research is enabled, each research-eligible stage prompts for an execution mode:
+
+- **Autonomous**: Agent researches themes/gaps without asking
+- **Guided**: Agent recommends what to research; you confirm or adjust
+- **Skip**: No research for this stage
+
+Research findings are synthesized into the main artifacts. Separate provenance files (`ExtractionResearch.md`, `CorrelationResearch.md`) preserve source traceability.
 
 ## Example Session
 
