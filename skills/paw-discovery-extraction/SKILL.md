@@ -15,6 +15,7 @@ Process input documents and extract structured themes with source attribution. S
 - Convert text-based PDF files to text (pdf-parse)
 - Read markdown and plain text files natively
 - Extract structured themes: features, user needs, constraints, vision statements
+- Optional web research to enrich themes with external context (when research enabled)
 - Interactive Q&A to validate and refine understanding
 - Detect and surface document conflicts
 - Warn about scale limits (token overflow)
@@ -133,9 +134,81 @@ Every extracted theme MUST include:
 - Relevant quote or paraphrase
 - Theme confidence (high/medium/low based on clarity in source)
 
-## Interactive Q&A Phase
+## Research Phase (Optional)
 
-After initial extraction, engage user to validate understanding.
+After initial theme identification and before Q&A refinement, optionally enrich themes with external context via web research. This phase only runs when `Research` is set to `enabled` in DiscoveryContext.md. When `disabled`, skip this section entirely — no behavioral change.
+
+### Execution Mode Selection
+
+When research is enabled, prompt the user for this stage's execution mode:
+
+- **Autonomous**: Agent identifies the most ambiguous or novel themes (those with low confidence, unclear terminology, or implicit assumptions), constructs research questions, and delegates without user input
+- **Guided**: Agent presents identified themes with a recommendation of which to research and why (e.g., "These 3 of 8 themes reference standards or technologies that would benefit from external context"). User confirms, adjusts the selection, or skips.
+- **Skip**: No research for this stage — proceed directly to Q&A
+
+### Research Delegation
+
+Delegate research to a subagent following the mapping delegation pattern:
+
+```
+task(
+  agent_type: "general-purpose",
+  description: "Extraction research for Discovery",
+  prompt: "<research prompt>"
+)
+```
+
+The research prompt instructs the subagent to:
+- Use `web_search` tool to investigate specified themes
+- Focus on **enrichment**: industry standards, common approaches, terminology clarification, relevant APIs/libraries, prior art
+- NOT consider the codebase (purely external context)
+- Produce `ExtractionResearch.md` at `.paw/discovery/<work-id>/ExtractionResearch.md`
+
+### ExtractionResearch.md Format
+
+```markdown
+---
+date: [ISO timestamp]
+work_id: [work-id]
+themes_researched: [count]
+status: complete
+---
+
+# Extraction Research: [Work Title]
+
+## Research Scope
+[Which themes were researched and why]
+
+## Findings
+
+### [Theme ID]: [Theme Name]
+- **Research Context**: [What was investigated]
+- **Findings**: [Standards, approaches, terminology, prior art discovered]
+- **Sources**: [URLs and brief descriptions]
+- **Relevance**: [How this enriches the theme understanding]
+
+### [Theme ID]: [Theme Name]
+...
+
+## Themes Not Researched
+[List themes that were skipped and why — already well-defined, out of guided selection, etc.]
+```
+
+### Integration into Extraction
+
+After research completes, enrich theme descriptions with research findings:
+- Add research-sourced context to theme descriptions, clearly attributing the source (e.g., "Per [source]: ...")
+- Mark research-enriched themes with `Research: [brief finding]` alongside existing Source attribution
+- If research contradicts a document source, surface the discrepancy for resolution during Q&A
+
+### Graceful Degradation
+
+If `web_search` is unavailable, returns errors, or yields no useful results:
+- Note the limitation in ExtractionResearch.md
+- Proceed to Q&A without research enrichment
+- Do NOT block extraction on research failures
+
+## Interactive Q&A Phase
 
 ### When to Ask
 
@@ -207,6 +280,7 @@ source_documents:
     tokens: [approximate vision tokens]
 theme_count: [N]
 conflict_count: [resolved conflicts]
+research_conducted: [true/false]
 status: complete
 ---
 
@@ -281,6 +355,7 @@ Track all Q&A interactions during extraction for auditability:
 
 - All input documents processed (converted if needed)
 - Themes extracted with source attribution
+- Research conducted if enabled (ExtractionResearch.md created, findings synthesized into themes)
 - Conflicts detected and resolved via Q&A
 - Scale warnings surfaced if applicable
 - Extraction.md saved with valid YAML frontmatter
@@ -291,7 +366,8 @@ When re-invoked after inputs change:
 1. Compare current `inputs/` with last extraction's source list
 2. Identify new/modified/removed files
 3. Full re-extraction (not incremental merge)
-4. Preserve user decisions from previous conflict resolutions if applicable
+4. Invalidate ExtractionResearch.md if it exists (research re-runs with new themes)
+5. Preserve user decisions from previous conflict resolutions if applicable
 
 ## Quality Checklist
 
