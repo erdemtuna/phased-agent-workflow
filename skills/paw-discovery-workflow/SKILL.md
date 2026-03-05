@@ -51,8 +51,7 @@ Humans have final authority over all Discovery decisions:
 | `paw-discovery-correlation-review` | Review correlation quality | Review feedback |
 | `paw-discovery-journey-grounding` | Extract pain points, synthesize user journeys | JourneyMap.md |
 | `paw-discovery-journey-grounding-review` | Review journey quality, source tracing | Review feedback |
-| `paw-discovery-journey-scoping` | Interactive MVP depth scoping (checkpoint) | JourneyMap.md (updated) |
-| `paw-discovery-prioritize` | Multi-factor prioritization, PAW handoff | Roadmap.md |
+| `paw-discovery-prioritize` | Scoping + multi-factor prioritization, PAW handoff | Roadmap.md |
 | `paw-discovery-prioritize-review` | Review roadmap quality | Review feedback |
 | `paw-discovery-final-review` | Comprehensive SoT/multi-model review before handoff | reviews/ |
 
@@ -69,8 +68,8 @@ All Discovery artifacts are stored in a consistent directory structure:
 ├── Extraction.md        # Stage 1 output: normalized themes with source attribution
 ├── CapabilityMap.md     # Stage 2 output: codebase capabilities inventory
 ├── Correlation.md       # Stage 3 output: theme ↔ capability connections
-├── JourneyMap.md        # Stage 4 output: pain points, user journeys, MVP scoping
-└── Roadmap.md           # Stage 5 output: prioritized MVP items with rationale
+├── JourneyMap.md        # Stage 4 output: pain points, user journeys, feature mapping
+└── Roadmap.md           # Stage 5 output: scoping decisions + prioritized MVP items
 ```
 
 **Work ID Derivation**: Normalized from user-provided title, lowercase with hyphens (e.g., "Q1 Planning" → "q1-planning").
@@ -87,7 +86,7 @@ All Discovery artifacts are stored in a consistent directory structure:
 
 ## Configuration
 - **Review Policy**: <every-stage | final-only>
-- **Scoping Style**: <per-journey | batch | bulk-guidance>
+- **Prioritization Mode**: <interactive | guided | autonomous>
 
 ## Input Documents
 | File | Type | Added | Status |
@@ -106,7 +105,6 @@ All Discovery artifacts are stored in a consistent directory structure:
 | Correlation Review | pending | - |
 | Journey Grounding | pending | JourneyMap.md |
 | Journey Grounding Review | pending | - |
-| Journey Scoping | pending | - |
 | Prioritization | pending | Roadmap.md |
 | Prioritization Review | pending | - |
 
@@ -137,10 +135,9 @@ Typical Discovery progression (adapt based on user intent and workflow state):
 ### Journey Grounding Stage
 1. `paw-discovery-journey-grounding`: Extract pain points, synthesize user journeys
 2. `paw-discovery-journey-grounding-review`: Review journey quality, source tracing
-3. `paw-discovery-journey-scoping`: Interactive MVP depth scoping (user decisions)
 
 ### Prioritization Stage
-1. `paw-discovery-prioritize`: Multi-factor analysis (including journey factors), generate roadmap
+1. `paw-discovery-prioritize`: Scoping + multi-factor analysis (configurable mode), generate roadmap
 2. `paw-discovery-prioritize-review`: Review roadmap quality
 
 ### Completion
@@ -219,7 +216,7 @@ Which would you like?
 
 ## Execution Model
 
-**Direct execution**: `paw-discovery-extraction`, `paw-discovery-mapping`, `paw-discovery-correlation`, `paw-discovery-journey-grounding`, `paw-discovery-journey-scoping`, `paw-discovery-prioritize`
+**Direct execution**: `paw-discovery-extraction`, `paw-discovery-mapping`, `paw-discovery-correlation`, `paw-discovery-journey-grounding`, `paw-discovery-prioritize`
 
 **Subagent delegation**: `paw-discovery-extraction-review`, `paw-discovery-mapping-review`, `paw-discovery-correlation-review`, `paw-discovery-journey-grounding-review`, `paw-discovery-prioritize-review`, `paw-code-research` (invoked by mapping)
 

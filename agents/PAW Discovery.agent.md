@@ -23,8 +23,7 @@ On first request, identify Discovery work context from environment (current bran
 | paw-discovery-correlation | paw-discovery-correlation-review | NO |
 | paw-discovery-correlation-review (passes) | paw-discovery-journey-grounding | NO |
 | paw-discovery-journey-grounding | paw-discovery-journey-grounding-review | NO |
-| paw-discovery-journey-grounding-review (passes) | paw-discovery-journey-scoping | NO |
-| paw-discovery-journey-scoping | paw-discovery-prioritize | NO |
+| paw-discovery-journey-grounding-review (passes) | paw-discovery-prioritize | NO |
 | paw-discovery-prioritize | paw-discovery-prioritize-review | NO |
 | paw-discovery-prioritize-review (passes) | paw-discovery-final-review | NO |
 | paw-discovery-final-review (passes) | Discovery complete, offer PAW handoff | NO |
@@ -33,17 +32,15 @@ On first request, identify Discovery work context from environment (current bran
 
 ### Stage Boundary Handling
 
-Discovery has **5 stages**, each with an activity and a review (except Journey Scoping which is an interactive checkpoint):
+Discovery has **5 stages**, each with an activity and a review:
 
 | Stage | Activity → Review (internal) | Artifact |
 |-------|------------------------------|----------|
 | Extraction | extraction → extraction-review | Extraction.md |
 | Mapping | mapping → mapping-review | CapabilityMap.md |
 | Correlation | correlation → correlation-review | Correlation.md |
-| Journey Grounding | journey-grounding → journey-grounding-review → journey-scoping* | JourneyMap.md |
+| Journey Grounding | journey-grounding → journey-grounding-review | JourneyMap.md |
 | Prioritization | prioritize → prioritize-review → final-review | Roadmap.md |
-
-*Journey Scoping is an interactive checkpoint, not a reviewed stage. User decisions are authoritative.
 
 **Stage boundaries** occur between stages (not within):
 
@@ -104,7 +101,6 @@ User can request re-extraction:
 - `paw-discovery-mapping`
 - `paw-discovery-correlation`
 - `paw-discovery-journey-grounding`
-- `paw-discovery-journey-scoping`
 - `paw-discovery-prioritize`
 
 **Subagent delegation** (context isolation):
