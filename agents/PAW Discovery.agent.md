@@ -111,6 +111,7 @@ User can request re-extraction:
 - `paw-discovery-prioritize-review`
 - `paw-discovery-final-review` (SoT-capable)
 - `paw-code-research` (invoked by mapping skill)
+- Research subagents (invoked by extraction and correlation skills when research is enabled)
 
 ### SoT Review Type
 
