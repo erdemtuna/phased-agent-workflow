@@ -44,7 +44,7 @@ The Discovery pipeline has five stages, each implemented as a pure markdown skil
 - [x] **Phase 1: Configuration & References** - Add research config to init, update workflow reference and artifact structure
 - [x] **Phase 2: Extraction Research** - Add research phase to extraction skill with subagent delegation
 - [x] **Phase 3: Correlation Research** - Add research phase to correlation skill with subagent delegation
-- [ ] **Phase 4: Reviews & Orchestrator** - Extend review criteria and update cascade invalidation
+- [x] **Phase 4: Reviews & Orchestrator** - Extend review criteria and update cascade invalidation
 - [ ] **Phase 5: Documentation** - Technical reference and project documentation updates
 
 ## Phase Candidates

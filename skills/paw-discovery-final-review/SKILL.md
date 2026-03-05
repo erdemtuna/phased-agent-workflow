@@ -66,6 +66,7 @@ Review this Discovery workflow output. Be critical and thorough.
 5. **Prioritization Rationale**: Does each roadmap item have clear 5-factor justification?
 6. **Actionability**: Can the top roadmap item be handed off to PAW for implementation?
 7. **Artifact Consistency**: Do artifacts reference each other correctly?
+8. **Research Integration** (conditional): If ExtractionResearch.md or CorrelationResearch.md exist, are research findings properly synthesized into the main artifacts they accompany?
 
 For each finding, provide:
 - Issue description
