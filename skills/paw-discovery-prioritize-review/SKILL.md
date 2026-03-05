@@ -13,10 +13,19 @@ Review Roadmap.md artifact for quality and completeness before Discovery workflo
 
 ### Multi-Factor Rationale
 
-- [ ] All 5 factors scored for each item (value, effort, dependencies, risk, leverage)
+- [ ] All 5 base factors scored for each item (value, effort, dependencies, risk, leverage)
+- [ ] Journey factors (6-8) scored when JourneyMap.md exists
 - [ ] Scores are justified with evidence
 - [ ] User adjustments are documented (if any)
 - [ ] Tradeoffs are explicitly discussed
+
+### Scoping Consistency (when JourneyMap.md exists)
+
+- [ ] Scoping decisions table is present with depth per journey
+- [ ] Each depth decision has documented rationale
+- [ ] Depth decisions are coherent across journeys (no conflicting feature assignments)
+- [ ] Features required by in-scope journeys are not categorized as Post-MVP without justification
+- [ ] Features deferred due to scoping have clear "only needed at deeper depth" rationale
 
 ### Priority Logic
 
@@ -85,7 +94,8 @@ When returning REVISE, provide:
 
 | Criterion | Threshold |
 |-----------|-----------|
-| Factor scoring | 5 factors for each item |
+| Factor scoring | 5 base factors for each item; journey factors when JourneyMap exists |
+| Scoping consistency | Depth decisions coherent, rationale documented (when JourneyMap exists) |
 | Item completeness | All fields populated |
 | Handoff quality | Actionable brief present |
 | Theme coverage | 100% accounted for |
