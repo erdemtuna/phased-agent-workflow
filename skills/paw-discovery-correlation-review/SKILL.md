@@ -51,6 +51,16 @@ Review Correlation.md artifact for quality and completeness before the prioritiz
 - [ ] `status: complete` in frontmatter
 - [ ] All sections are populated appropriately
 
+### Research Integration (conditional)
+
+Evaluate only when `research_conducted: true` in Correlation.md frontmatter. Skip this category entirely when research was not conducted.
+
+- [ ] CorrelationResearch.md exists alongside Correlation.md
+- [ ] Gap entries include feasibility context from research
+- [ ] Research-sourced feasibility assessments cite credible sources
+- [ ] Correlation matrix Notes column reflects research findings for researched gaps
+- [ ] Gaps where research found no relevant solutions are noted
+
 ## Verdict
 
 Return one of:
@@ -88,6 +98,7 @@ When returning REVISE, provide:
 | Confidence levels | 100% assigned |
 | Rationale | Present for all correlations |
 | Artifact validity | Valid YAML, complete sections |
+| Research integration | If research conducted: feasibility context in gaps, sources credible, provenance artifact exists |
 
 ## Completion Response
 

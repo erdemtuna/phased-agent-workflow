@@ -51,6 +51,16 @@ Review Extraction.md artifact for quality and completeness before the mapping st
 - [ ] Theme count in frontmatter matches actual theme count
 - [ ] Document is well-structured with clear sections
 
+### Research Integration (conditional)
+
+Evaluate only when `research_conducted: true` in Extraction.md frontmatter. Skip this category entirely when research was not conducted.
+
+- [ ] ExtractionResearch.md exists alongside Extraction.md
+- [ ] Research findings are integrated into theme descriptions (not just appended)
+- [ ] Research-sourced insights are distinguishable from document-sourced insights
+- [ ] Sources cited in research appear credible (official docs, established projects)
+- [ ] Themes where research found nothing useful are noted appropriately
+
 ## Verdict
 
 Return one of:
@@ -88,6 +98,7 @@ When returning REVISE, provide:
 | Category population | ≥1 category with ≥1 theme |
 | Conflict resolution | 0 unresolved conflicts |
 | Artifact validity | Valid YAML, complete sections |
+| Research integration | If research conducted: findings integrated, sources credible, provenance artifact exists |
 
 ## Completion Response
 

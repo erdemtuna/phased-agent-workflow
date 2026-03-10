@@ -43,11 +43,11 @@ Humans have final authority over all Discovery decisions:
 
 | Skill | Capabilities | Primary Artifacts |
 |-------|--------------|-------------------|
-| `paw-discovery-extraction` | Process input docs, extract themes, interactive Q&A | Extraction.md |
+| `paw-discovery-extraction` | Process input docs, extract themes, interactive Q&A, optional web research enrichment | Extraction.md, ExtractionResearch.md (optional) |
 | `paw-discovery-extraction-review` | Review extraction quality | Review feedback |
 | `paw-discovery-mapping` | Delegate to paw-code-research, format capability inventory | CapabilityMap.md |
 | `paw-discovery-mapping-review` | Review mapping quality | Review feedback |
-| `paw-discovery-correlation` | Cross-reference themes with capabilities | Correlation.md |
+| `paw-discovery-correlation` | Cross-reference themes with capabilities, optional web research for gap feasibility | Correlation.md, CorrelationResearch.md (optional) |
 | `paw-discovery-correlation-review` | Review correlation quality | Review feedback |
 | `paw-discovery-journey-grounding` | Extract pain points, synthesize user journeys | JourneyMap.md |
 | `paw-discovery-journey-grounding-review` | Review journey quality, source tracing | Review feedback |
@@ -66,8 +66,10 @@ All Discovery artifacts are stored in a consistent directory structure:
 ├── inputs/              # User-provided source documents (.md, .txt, .docx, .pdf)
 ├── DiscoveryContext.md  # Configuration, state, and input tracking
 ├── Extraction.md        # Stage 1 output: normalized themes with source attribution
+├── ExtractionResearch.md # Stage 1 optional: web research provenance (when research enabled)
 ├── CapabilityMap.md     # Stage 2 output: codebase capabilities inventory
 ├── Correlation.md       # Stage 3 output: theme ↔ capability connections
+├── CorrelationResearch.md # Stage 3 optional: gap feasibility research provenance (when research enabled)
 ├── JourneyMap.md        # Stage 4 output: pain points, user journeys, feature mapping
 └── Roadmap.md           # Stage 5 output: scoping decisions + prioritized MVP items
 ```
@@ -87,6 +89,7 @@ All Discovery artifacts are stored in a consistent directory structure:
 ## Configuration
 - **Review Policy**: <every-stage | final-only>
 - **Prioritization Mode**: <interactive | guided | autonomous>
+- **Research**: <disabled | autonomous | guided>
 
 ## Input Documents
 | File | Type | Added | Status |
@@ -170,7 +173,7 @@ Typical Discovery progression (adapt based on user intent and workflow state):
 Discovery supports iterative refinement (FR-012):
 
 1. **Input change detection**: Compare current `inputs/` file list with `Last Extraction Inputs` in DiscoveryContext.md
-2. **Cascade invalidation**: When extraction re-runs, downstream artifacts (CapabilityMap.md, Correlation.md, JourneyMap.md, Roadmap.md) are marked stale
+2. **Cascade invalidation**: When extraction re-runs, downstream artifacts (ExtractionResearch.md, CapabilityMap.md, Correlation.md, CorrelationResearch.md, JourneyMap.md, Roadmap.md) are marked stale
 3. **Selective re-run**: User can re-invoke specific stages; downstream stages auto-invalidate
 
 ### Trigger Commands
