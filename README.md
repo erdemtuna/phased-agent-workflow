@@ -2,6 +2,11 @@
 	<img src="./img/paw-logo.png" alt="PAW Logo" />
     <h1>PAW Discovery</h1>
     <h3>Context-Driven Development for GitHub Copilot</h3>
+    <p>
+        <a href="https://github.com/lossyrob/phased-agent-workflow">
+            <img src="https://img.shields.io/badge/fork_of-PAW_by_lossyrob-blue?style=flat&logo=github" alt="Fork of PAW" />
+        </a>
+    </p>
 </div>
 
 ## Try It Now
