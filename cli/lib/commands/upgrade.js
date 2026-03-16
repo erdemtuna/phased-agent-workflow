@@ -112,8 +112,8 @@ export async function upgradeCommand(_flags = {}) {
   if (isGlobal) {
     // Global: update the package, then shell out to the NEW paw binary
     // (the running process still has old code/version in memory)
-    console.log('Updating @paw-workflow/cli globally...\n');
-    await runCommand('npm', ['install', '-g', `@paw-workflow/cli@${latestVersion}`]);
+    console.log('Updating @paw-discovery/cli globally...\n');
+    await runCommand('npm', ['install', '-g', `@paw-discovery/cli@${latestVersion}`]);
     console.log('');
     for (const target of targets) {
       await runCommand('paw', ['install', target, '--force']);

@@ -1,10 +1,11 @@
 # Workflows
 
-PAW provides three workflows for different development scenarios:
+PAW provides workflows for different development scenarios:
 
 1. **Implementation Workflow** — Building new features through structured phases
 2. **PAW Lite** — Lightweight workflow for frontier models that reason well in the moment
 3. **Review Workflow** — Thoroughly reviewing existing pull requests
+4. **Discovery Workflow** — Transforming documents into prioritized MVP roadmaps
 
 All workflows use a **skills-based architecture** with compact orchestrator agents that delegate to specialized activity skills.
 
@@ -164,6 +165,7 @@ All workflows share PAW's core principles:
 ## Next Steps
 
 - [Workflow Modes](workflow-modes.md) — Configure Full, Minimal, or Custom modes for implementation
+- [Discovery Workflow](discovery-workflow.md) — Transform documents into prioritized roadmaps
 - [Society-of-Thought Review](society-of-thought-review.md) — Multi-perspective review engine used by PAW Lite's review stage
 - [Implementation Workflow Specification](../specification/implementation.md) — Deep dive into implementation stages
 - [Review Workflow Specification](../specification/review.md) — Deep dive into review stages

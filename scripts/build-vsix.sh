@@ -40,7 +40,7 @@ PACKAGE_OUTPUT=$(npm run package 2>&1)
 echo "$PACKAGE_OUTPUT"
 
 # Extract the VSIX filename from the package output
-# The output contains a line like: "Packaged: /path/to/paw-workflow-X.Y.Z.vsix (N files, SIZE)"
+# The output contains a line like: "Packaged: /path/to/paw-discovery-X.Y.Z.vsix (N files, SIZE)"
 # Use sed for cross-platform compatibility (macOS grep doesn't support -P)
 VSIX_PATH=$(echo "$PACKAGE_OUTPUT" | grep "Packaged:" | sed 's/.*Packaged: //' | sed 's/ .*//')
 

@@ -1,12 +1,12 @@
 {
-  "name": "paw-workflow",
-  "displayName": "PAW Workflow",
-  "description": "Phased Agent Workflow tooling for VS Code - streamlines work item initialization",
+  "name": "paw-discovery",
+  "displayName": "PAW Discovery",
+  "description": "PAW Discovery — AI agent workflows for building features, reviewing PRs, and transforming documents into roadmaps",
   "version": "0.0.2-dev",
-  "publisher": "paw-workflow",
+  "publisher": "paw-discovery",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lossyrob/phased-agent-workflow"
+    "url": "https://github.com/erdemtuna/paw-discovery"
   },
   "license": "MIT",
   "engines": {

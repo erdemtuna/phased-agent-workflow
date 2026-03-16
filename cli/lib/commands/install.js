@@ -96,9 +96,9 @@ export async function installCommand(target, flags = {}) {
   "Review PR #100" (with PAW-Review agent)
 
 📦 Manage your installation:
-  npx @paw-workflow/cli list       Show installed version
-  npx @paw-workflow/cli upgrade    Check for updates
-  npx @paw-workflow/cli uninstall  Cleanly remove PAW`);
+  npx @paw-discovery/cli list       Show installed version
+  npx @paw-discovery/cli upgrade    Check for updates
+  npx @paw-discovery/cli uninstall  Cleanly remove PAW`);
     } else {
       console.log(`
 🚀 Quick Start
@@ -112,9 +112,9 @@ export async function installCommand(target, flags = {}) {
   "Review PR #100" (with PAW-Review agent)
 
 📦 Manage your installation:
-  npx @paw-workflow/cli list       Show installed version
-  npx @paw-workflow/cli upgrade    Check for updates
-  npx @paw-workflow/cli uninstall  Cleanly remove PAW`);
+  npx @paw-discovery/cli list       Show installed version
+  npx @paw-discovery/cli upgrade    Check for updates
+  npx @paw-discovery/cli uninstall  Cleanly remove PAW`);
     }
   }
 }

@@ -166,7 +166,7 @@ Example: `[Auth System] Phase 1: Add JWT token validation`
 ```
 Phase <N>: <one-sentence objective>
 
-🐾 Generated with [PAW](https://github.com/lossyrob/phased-agent-workflow)
+🐾 Generated with [PAW](https://github.com/erdemtuna/paw-discovery)
 ```
 
 **Complex phases**:
@@ -180,7 +180,7 @@ Phase <N>: <one-sentence objective>
 ## Reviewer Notes
 <Items for reviewer attention>
 
-🐾 Generated with [PAW](https://github.com/lossyrob/phased-agent-workflow)
+🐾 Generated with [PAW](https://github.com/erdemtuna/paw-discovery)
 ```
 
 ### Post-PR Actions

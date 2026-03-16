@@ -77,8 +77,8 @@ jobs:
         id: vsix
         run: |
           # Verify the VSIX file was created with the expected filename format
-          # The package name comes from package.json and matches: paw-workflow-<version>.vsix
-          VSIX_FILE="paw-workflow-${{ steps.version.outputs.version }}.vsix"
+          # The package name comes from package.json and matches: paw-discovery-<version>.vsix
+          VSIX_FILE="paw-discovery-${{ steps.version.outputs.version }}.vsix"
           if [ ! -f "$VSIX_FILE" ]; then
             echo "Error: Expected VSIX file not found: $VSIX_FILE"
             exit 1

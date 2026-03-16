@@ -32,7 +32,7 @@ npm version "${TARGET_VERSION}" --no-git-tag-version --allow-same-version >/dev/
 echo "→ Building VSIX..."
 ./scripts/build-vsix.sh
 
-VSIX_FILE="paw-workflow-${TARGET_VERSION}.vsix"
+VSIX_FILE="paw-discovery-${TARGET_VERSION}.vsix"
 if [ -f "${VSIX_FILE}" ]; then
     echo "✓ Built: ${VSIX_FILE}"
 else
@@ -49,7 +49,7 @@ Helper complete
 EOF
 
 echo "Next steps:"
-echo "  1. Install: code --install-extension paw-workflow-${TARGET_VERSION}.vsix"
+echo "  1. Install: code --install-extension paw-discovery-${TARGET_VERSION}.vsix"
 echo "  2. Reload VS Code"
 echo "  3. Open the 'PAW Workflow' output channel to inspect migration logs"
 echo "  4. Verify agents inside GitHub Copilot Chat"

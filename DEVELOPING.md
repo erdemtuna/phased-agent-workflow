@@ -114,14 +114,14 @@ Use either the VS Code UI or the command line.
 #### Command Line
 
 ```bash
-code --install-extension paw-workflow-0.0.1-dev.vsix
+code --install-extension paw-discovery-0.0.1-dev.vsix
 ```
 
 #### VS Code UI
 
 1. Open the Extensions view (`Ctrl+Shift+X` / `Cmd+Shift+X`).
 2. Open the overflow menu (`…`) and choose **Install from VSIX...**.
-3. Select `paw-workflow-0.0.1-dev.vsix` from the extension directory.
+3. Select `paw-discovery-0.0.1-dev.vsix` from the extension directory.
 4. Reload VS Code when prompted.
 
 ### Development Workflow
@@ -135,7 +135,7 @@ code --install-extension paw-workflow-0.0.1-dev.vsix
 When developing PAW itself using PAW agents:
 
 1. **Make agent changes** in `agents/` directory
-2. **Build and install VSIX**: `npm run package && code --install-extension paw-workflow-0.0.1-dev.vsix`
+2. **Build and install VSIX**: `npm run package && code --install-extension paw-discovery-0.0.1-dev.vsix`
 3. **Reload VS Code** to use updated agents in your PAW workflow
 4. **Important**: Local agent changes DO NOT automatically update installed agents. You must rebuild and reinstall the VSIX to test agent modifications.
 
@@ -149,7 +149,7 @@ Local builds use version `0.0.1-dev`, which forces agent reinstallation on every
 
 1. Modify agents in `agents/`
 2. Run `npm run package`
-3. Install the VSIX: `code --install-extension paw-workflow-0.0.1-dev.vsix`
+3. Install the VSIX: `code --install-extension paw-discovery-0.0.1-dev.vsix`
 4. Reload VS Code and monitor the **PAW Workflow** output channel for the "Development build detected" log
 5. Validate agents inside Copilot Chat
 
@@ -176,14 +176,14 @@ The script updates `package.json`, runs the standard VSIX build, restores the or
 ### Uninstalling
 
 ```bash
-code --uninstall-extension paw-workflow.paw-workflow
+code --uninstall-extension paw-discovery.paw-discovery
 ```
 
 Or uninstall from the Extensions view inside VS Code.
 
 ## Documentation Development
 
-PAW documentation is built with MkDocs and the Material theme, publishing to GitHub Pages at https://lossyrob.github.io/phased-agent-workflow.
+PAW documentation is built with MkDocs and the Material theme, publishing to GitHub Pages at https://erdemtuna.github.io/paw-discovery.
 
 ### Prerequisites
 
@@ -278,7 +278,7 @@ Builds and deploys documentation to GitHub Pages when changes are merged to main
 1. Sets up Python and caches Material theme assets
 2. Installs `mkdocs-material`
 3. Runs `mkdocs gh-deploy --force` to build and push to `gh-pages` branch
-4. Site updates at https://lossyrob.github.io/phased-agent-workflow
+4. Site updates at https://erdemtuna.github.io/paw-discovery
 
 ## Integration Testing
 

@@ -1,15 +1,15 @@
-# @paw-workflow/cli
+# @paw-discovery/cli
 
-CLI installer for [Phased Agent Workflow (PAW)](https://github.com/lossyrob/phased-agent-workflow) agents and skills.
+CLI installer for [PAW Discovery](https://github.com/erdemtuna/paw-discovery) agents and skills.
 
 ## Installation
 
 ```bash
 # Install to GitHub Copilot CLI
-npx @paw-workflow/cli install copilot
+npx @paw-discovery/cli install copilot
 
 # Install to Claude Code CLI
-npx @paw-workflow/cli install claude
+npx @paw-discovery/cli install claude
 ```
 
 This installs PAW agents and skills to the target CLI's configuration directory (`~/.copilot/` or `~/.claude/`).
@@ -17,8 +17,8 @@ This installs PAW agents and skills to the target CLI's configuration directory 
 You can install to both targets:
 
 ```bash
-npx @paw-workflow/cli install copilot
-npx @paw-workflow/cli install claude
+npx @paw-discovery/cli install copilot
+npx @paw-discovery/cli install claude
 ```
 
 ## Commands
@@ -103,10 +103,10 @@ This creates `dist/` with processed agents and skills for the npm package.
 The Copilot CLI plugin reads `plugin.json` from the repository root on `main`. The `agents/` and `skills/` directories on `main` serve as the canonical source for plugin installation:
 
 ```bash
-copilot plugin install lossyrob/phased-agent-workflow
+copilot plugin install erdemtuna/paw-discovery
 ```
 
-Users wanting versioned/stable installs should use the npm CLI (`npx @paw-workflow/cli@<version>`).
+Users wanting versioned/stable installs should use the npm CLI (`npx @paw-discovery/cli@<version>`).
 
 ### Test locally
 
@@ -147,6 +147,6 @@ git tag cli-v0.0.1
 git push origin cli-v0.0.1
 ```
 
-This triggers npm publish — publishes `@paw-workflow/cli` to npm and creates a GitHub Release.
+This triggers npm publish — publishes `@paw-discovery/cli` to npm and creates a GitHub Release.
 
 Requires `NPM_TOKEN` secret configured in the repository.

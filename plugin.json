@@ -1,13 +1,19 @@
 {
-  "name": "paw-workflow",
-  "description": "Phased Agent Workflow (PAW) — structured multi-phase implementation and PR review workflows for AI coding agents",
+  "name": "paw-discovery",
+  "description": "PAW Discovery — AI agent workflows for building features, reviewing PRs, and transforming documents into roadmaps",
   "version": "0.3.0",
-  "author": {
-    "name": "Rob Emanuele",
-    "url": "https://github.com/lossyrob"
-  },
-  "homepage": "https://lossyrob.github.io/phased-agent-workflow",
-  "repository": "https://github.com/lossyrob/phased-agent-workflow",
+  "authors": [
+    {
+      "name": "Rob Emanuele",
+      "url": "https://github.com/lossyrob"
+    },
+    {
+      "name": "Erdem Tuna",
+      "url": "https://github.com/erdemtuna"
+    }
+  ],
+  "homepage": "https://erdemtuna.github.io/paw-discovery",
+  "repository": "https://github.com/erdemtuna/paw-discovery",
   "license": "MIT",
   "keywords": [
     "paw",

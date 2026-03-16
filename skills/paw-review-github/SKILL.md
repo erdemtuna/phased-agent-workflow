@@ -78,7 +78,7 @@ mcp_github_pull_request_review_write(
   repo: "<repo>",
   pullNumber: <number>,
   method: "create",
-  body: "<review-summary>\n\n---\n🐾 Review generated with [PAW Review](https://github.com/lossyrob/phased-agent-workflow)"
+  body: "<review-summary>\n\n---\n🐾 Review generated with [PAW Review](https://github.com/erdemtuna/paw-discovery)"
   // Note: event omitted to create pending (draft) review
 )
 ```
@@ -170,11 +170,11 @@ Multi-PR mode applies when:
 **GitHub Tool Calls for Multiple PRs:**
 ```
 # PR 1: repo-a
-mcp_github_pull_request_review_write(owner, "repo-a", 123, method="create", body="<summary>\n\n---\n🐾 Review generated with [PAW Review](https://github.com/lossyrob/phased-agent-workflow)")
+mcp_github_pull_request_review_write(owner, "repo-a", 123, method="create", body="<summary>\n\n---\n🐾 Review generated with [PAW Review](https://github.com/erdemtuna/paw-discovery)")
 mcp_github_add_comment_to_pending_review(...)  # postable comments for PR-123
 
 # PR 2: repo-b  
-mcp_github_pull_request_review_write(owner, "repo-b", 456, method="create", body="<summary>\n\n---\n🐾 Review generated with [PAW Review](https://github.com/lossyrob/phased-agent-workflow)")
+mcp_github_pull_request_review_write(owner, "repo-b", 456, method="create", body="<summary>\n\n---\n🐾 Review generated with [PAW Review](https://github.com/erdemtuna/paw-discovery)")
 mcp_github_add_comment_to_pending_review(...)  # postable comments for PR-456
 ```
 

@@ -1,7 +1,12 @@
 <div align="center">
 	<img src="./img/paw-logo.png" alt="PAW Logo" />
-    <h1>Phased Agent Workflow (PAW)</h1>
+    <h1>PAW Discovery</h1>
     <h3>Context-Driven Development for GitHub Copilot</h3>
+    <p>
+        <a href="https://github.com/lossyrob/phased-agent-workflow">
+            <img src="https://img.shields.io/badge/fork_of-PAW_by_lossyrob-blue?style=flat&logo=github" alt="Fork of PAW" />
+        </a>
+    </p>
 </div>
 
 ## Try It Now
@@ -9,7 +14,7 @@
 ### Copilot CLI Plugin (Recommended)
 
 ```bash
-copilot plugin install lossyrob/phased-agent-workflow
+copilot plugin install erdemtuna/paw-discovery
 ```
 
 This installs PAW as a [Copilot CLI plugin](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-finding-installing) with native update and uninstall support. Then start a workflow:
@@ -21,7 +26,7 @@ copilot --agent PAW-Review   # PR review workflow
 
 Or use `/agent` inside your session to switch agents.
 
-Update with `copilot plugin update paw-workflow`, uninstall with `copilot plugin uninstall paw-workflow`.
+Update with `copilot plugin update paw-discovery`, uninstall with `copilot plugin uninstall paw-discovery`.
 
 **Requirements**: [GitHub Copilot CLI](https://github.com/github/copilot-cli) installed.
 
@@ -30,8 +35,8 @@ Update with `copilot plugin update paw-workflow`, uninstall with `copilot plugin
 If you prefer the npm-based installer (also supports Claude Code):
 
 ```bash
-npx @paw-workflow/cli install copilot   # Copilot CLI
-npx @paw-workflow/cli install claude    # Claude Code
+npx @paw-discovery/cli install copilot   # Copilot CLI
+npx @paw-discovery/cli install claude    # Claude Code
 ```
 
 ---
@@ -41,6 +46,8 @@ npx @paw-workflow/cli install claude    # Claude Code
 **Phased Agent Workflow** (PAW) enables **Context-Driven Development**—a practice where AI agents build understanding through structured research and planning phases before writing code. Each phase produces durable artifacts (specs, research docs, implementation plans) that accumulate context and feed the next phase. By the time code is written, both agent and human share deep, documented understanding of what's being built and why.
 
 PAW integrates with GitHub Pull Requests at every implementation step, enabling human review and iteration on AI-generated code. Every phase is traceable, rewindable, and version-controlled.
+
+**PAW Discovery** extends the core PAW framework with a **Discovery workflow** that transforms documents into prioritized MVP roadmaps through extraction, mapping, correlation, journey grounding, and prioritization stages.
 
 **Why context-driven?** AI agents work best when given clear, accumulated context rather than open-ended prompts. PAW's phased approach ensures agents have the specification, codebase understanding, and implementation plan they need before touching code—reducing hallucination, improving quality, and making the work auditable.
 
@@ -58,9 +65,9 @@ PAW works with both **GitHub Copilot CLI** (terminal) and **VS Code** (GUI):
 
 | Platform | Installation | Best For |
 |----------|--------------|----------|
-| **Copilot CLI** (Plugin) | `copilot plugin install lossyrob/phased-agent-workflow` | Terminal workflows, quick iteration |
-| **Copilot CLI** (NPM) | `npx @paw-workflow/cli install copilot` | Fallback, or if you also use Claude Code |
-| **VS Code Extension** | Download `.vsix` from [Releases](https://github.com/lossyrob/phased-agent-workflow/releases) | IDE integration, visual workflow |
+| **Copilot CLI** (Plugin) | `copilot plugin install erdemtuna/paw-discovery` | Terminal workflows, quick iteration |
+| **Copilot CLI** (NPM) | `npx @paw-discovery/cli install copilot` | Fallback, or if you also use Claude Code |
+| **VS Code Extension** | Download `.vsix` from [Releases](https://github.com/erdemtuna/paw-discovery/releases) | IDE integration, visual workflow |
 
 Both platforms use the same PAW agents and skills—choose based on your preferred workflow.
 
@@ -93,7 +100,7 @@ All comments are created as a pending review—you edit, delete, or add to them 
 
 Install as a Copilot CLI plugin:
 ```bash
-copilot plugin install lossyrob/phased-agent-workflow
+copilot plugin install erdemtuna/paw-discovery
 ```
 
 Then start a session with `copilot --agent PAW` or `copilot --agent PAW-Review`.
@@ -101,19 +108,19 @@ Then start a session with `copilot --agent PAW` or `copilot --agent PAW-Review`.
 Manage your installation:
 ```bash
 copilot plugin list                     # Show installed plugins
-copilot plugin update paw-workflow      # Update to latest
-copilot plugin uninstall paw-workflow   # Remove PAW
+copilot plugin update paw-discovery      # Update to latest
+copilot plugin uninstall paw-discovery   # Remove PAW
 ```
 
 <details>
 <summary>Alternative: NPM CLI (also supports Claude Code)</summary>
 
 ```bash
-npx @paw-workflow/cli install copilot   # Copilot CLI
-npx @paw-workflow/cli install claude    # Claude Code
-npx @paw-workflow/cli list              # Show installed version
-npx @paw-workflow/cli upgrade           # Check for updates
-npx @paw-workflow/cli uninstall         # Remove PAW
+npx @paw-discovery/cli install copilot   # Copilot CLI
+npx @paw-discovery/cli install claude    # Claude Code
+npx @paw-discovery/cli list              # Show installed version
+npx @paw-discovery/cli upgrade           # Check for updates
+npx @paw-discovery/cli uninstall         # Remove PAW
 ```
 
 **Note**: If switching from NPM CLI to the plugin, uninstall the NPM version first to avoid duplicate agents (user-level files take precedence over plugin files).
@@ -121,7 +128,7 @@ npx @paw-workflow/cli uninstall         # Remove PAW
 
 ### VS Code Extension
 
-1. Download the latest `.vsix` from [Releases](https://github.com/lossyrob/phased-agent-workflow/releases)
+1. Download the latest `.vsix` from [Releases](https://github.com/erdemtuna/paw-discovery/releases)
 2. Install via `Extensions: Install from VSIX...` in the Command Palette
 3. Run `PAW: New PAW Workflow` to start
 

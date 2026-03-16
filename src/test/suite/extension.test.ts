@@ -13,12 +13,12 @@ import * as vscode from 'vscode';
  */
 suite('Extension Activation Tests', () => {
   test('Extension should be present', () => {
-    const extension = vscode.extensions.getExtension('paw-workflow.paw-workflow');
+    const extension = vscode.extensions.getExtension('paw-discovery.paw-discovery');
     assert.ok(extension, 'Extension metadata should be registered');
   });
 
   test('Extension should activate', async () => {
-    const extension = vscode.extensions.getExtension('paw-workflow.paw-workflow');
+    const extension = vscode.extensions.getExtension('paw-discovery.paw-discovery');
     await extension?.activate();
     assert.ok(extension?.isActive, 'Extension should be active after activation');
   });

@@ -81,7 +81,7 @@ jobs:
           name: CLI ${{ steps.version.outputs.version }}
           tag_name: ${{ github.ref_name }}
           body: |
-            Published to npm: `@paw-workflow/cli@${{ steps.version.outputs.version }}`
+            Published to npm: `@paw-discovery/cli@${{ steps.version.outputs.version }}`
 
             Release notes will be added by the release preparation process.
           prerelease: ${{ steps.prerelease.outputs.is_prerelease }}

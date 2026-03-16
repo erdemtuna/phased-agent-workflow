@@ -19,7 +19,7 @@
     Target CLI: copilot (default) or claude
 
 .EXAMPLE
-    .\export-for-cli.ps1 skill paw-workflow
+    .\export-for-cli.ps1 skill paw-discovery
     .\export-for-cli.ps1 agent PAW
     .\export-for-cli.ps1 skills
     .\export-for-cli.ps1 agents

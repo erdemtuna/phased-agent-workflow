@@ -116,7 +116,7 @@ Include these elements as appropriate:
 - Deployment: Feature flags, rollout strategy, dependencies
 - Artifacts: Links to workflow artifacts (per lifecycle mode — see Artifact Lifecycle Handling)
 
-Footer: `🐾 Generated with [PAW](https://github.com/lossyrob/phased-agent-workflow)`
+Footer: `🐾 Generated with [PAW](https://github.com/erdemtuna/paw-discovery)`
 
 ### PRs Strategy Sections
 

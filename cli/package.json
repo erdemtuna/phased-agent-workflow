@@ -1,7 +1,7 @@
 {
-  "name": "@paw-workflow/cli",
+  "name": "@paw-discovery/cli",
   "version": "0.0.1",
-  "description": "CLI installer for Phased Agent Workflow (PAW) agents and skills",
+  "description": "CLI installer for PAW Discovery agents and skills",
   "type": "module",
   "bin": {
     "paw": "bin/paw.js"
@@ -28,7 +28,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lossyrob/phased-agent-workflow.git",
+    "url": "https://github.com/erdemtuna/paw-discovery.git",
     "directory": "cli"
   },
   "engines": {

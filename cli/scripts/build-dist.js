@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Build script for @paw-workflow/cli distribution.
+ * Build script for @paw-discovery/cli distribution.
  * Processes conditional blocks and prepares agents/skills for npm package.
  * 
  * - Keeps content inside {{#cli}}...{{/cli}}
@@ -80,7 +80,7 @@ function injectSkillVersion(content, version) {
  */
 function injectAgentVersion(content, version) {
   // Add version as HTML comment footer
-  const footer = `\n\n<!-- @paw-workflow/cli v${version} -->`;
+  const footer = `\n\n<!-- @paw-discovery/cli v${version} -->`;
   return content.trimEnd() + footer + '\n';
 }
 
@@ -156,7 +156,7 @@ function buildSkills() {
  * Main build function.
  */
 function build() {
-  console.log(`Building @paw-workflow/cli v${VERSION} distribution...\n`);
+  console.log(`Building @paw-discovery/cli v${VERSION} distribution...\n`);
   
   // Clean dist directory
   if (existsSync(DIST_DIR)) {

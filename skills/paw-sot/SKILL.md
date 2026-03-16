@@ -24,7 +24,7 @@ The calling skill provides a **review context** describing what to review and ho
 
 | Field | Required | Values | Description |
 |-------|----------|--------|-------------|
-| `type` | yes | `diff` \| `artifacts` \| `freeform` | What kind of content is being reviewed |
+| `type` | yes | `diff` \| `artifacts` \| `discovery-artifacts` \| `freeform` | What kind of content is being reviewed |
 | `coordinates` | yes | diff range, artifact paths, or content description | What to point specialists at |
 | `output_dir` | yes | directory path | Where to write REVIEW-*.md files |
 | `specialists` | no | `all` (default) \| comma-separated names \| `adaptive:<N>` | Which specialists to invoke |
@@ -36,6 +36,17 @@ The calling skill provides a **review context** describing what to review and ho
 | `perspectives` | no | `none` \| `auto` (default) \| comma-separated names | Which perspective overlays to apply |
 | `perspective_cap` | no | positive integer (default `2`) | Max perspective overlays per specialist |
 
+### Type-to-Context Mapping
+
+Each review `type` maps to a specialist `context` for filtering:
+
+| Review Type | Specialist Context | Description |
+|-------------|-------------------|-------------|
+| `diff` | `implementation` | Code/implementation review — loads implementation specialists |
+| `artifacts` | `implementation` | Design/planning document review — loads implementation specialists |
+| `discovery-artifacts` | `discovery` | Discovery workflow synthesis artifacts — loads discovery specialists |
+| `freeform` | *(bypass)* | No context filtering — all discovered specialists participate |
+
 ## Context-Adaptive Preambles
 
 Before composing specialist prompts, inject a type-dependent preamble that frames how the specialist should interpret its cognitive strategy and domain for the review target.
@@ -45,6 +56,11 @@ Before composing specialist prompts, inject a type-dependent preamble that frame
 
 **Type `artifacts`** (design/planning review):
 > You are reviewing design and planning documents, not code. Apply your cognitive strategy to design decisions, architectural choices, and unstated assumptions. Your domain expertise should evaluate whether the planned approach is sound — look for gaps in reasoning, missing edge cases, feasibility risks, and cross-concern conflicts. Reference specific sections and claims in the documents rather than code lines.
+
+**Type `discovery-artifacts`** (Discovery workflow synthesis review):
+> You are reviewing Discovery workflow synthesis artifacts—extracted themes, capability mappings, correlations, and prioritized roadmaps. Apply your cognitive strategy to evaluate reasoning quality, source attribution accuracy, coverage completeness, and cross-artifact consistency. Reference specific artifact sections, theme IDs, and capability references rather than code lines.
+
+**Note**: The Discovery preamble contextually overrides diff-centric language in shared rules. Agents should interpret "evidence anchored to specific locations" as artifact sections and theme IDs rather than code lines.
 
 **Type `freeform`**:
 > Use the caller-provided `framing` field content as the preamble. If no `framing` provided, use a neutral framing: "You are reviewing the provided content. Apply your cognitive strategy and domain expertise to identify issues, risks, and opportunities for improvement."
@@ -88,6 +104,7 @@ context: implementation
 - Specialists without a `context` field, or with an empty/whitespace-only `context` value, default to `implementation`
 - Callers without `context` field:
   - `diff` and `artifacts` types → default to `implementation`
+  - `discovery-artifacts` type → default to `discovery`
   - `freeform` type → no filtering (all specialists participate)
 
 **Zero-match handling**: If context filtering results in zero matching specialists:
@@ -145,7 +162,13 @@ Selection is budget-aware: total subagent calls = specialists × assigned perspe
 
 ## Prompt Composition
 
-Compose the review prompt for each specialist subagent from up to five layers:
+Compose the review prompt for each specialist subagent. The process includes context filtering followed by five-layer prompt assembly:
+
+**Step 1: Context Filtering**
+Apply context-based specialist filtering (see Context-Based Specialist Filtering above) to produce the filtered specialist roster for the review `type`.
+
+**Step 2: Prompt Assembly**
+For each specialist in the filtered roster, compose the prompt from five layers:
 
 1. **Shared rules** — load `references/specialists/_shared-rules.md` once per review run (anti-sycophancy rules, confidence scoring, Toulmin output format)
 2. **Context preamble** — inject the type-dependent preamble (see Context-Adaptive Preambles above) to frame the specialist's review lens

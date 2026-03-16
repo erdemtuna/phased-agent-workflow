@@ -11,7 +11,7 @@ Install PAW agents and skills to your GitHub Copilot CLI configuration.
 Install PAW as a native Copilot CLI plugin:
 
 ```bash
-copilot plugin install lossyrob/phased-agent-workflow
+copilot plugin install erdemtuna/paw-discovery
 ```
 
 This installs PAW agents and skills as a managed plugin, with native update and uninstall support.
@@ -20,10 +20,10 @@ This installs PAW agents and skills as a managed plugin, with native update and 
 
 | Command | Description |
 |---------|-------------|
-| `copilot plugin install lossyrob/phased-agent-workflow` | Install PAW plugin |
+| `copilot plugin install erdemtuna/paw-discovery` | Install PAW plugin |
 | `copilot plugin list` | Show installed plugins |
-| `copilot plugin update paw-workflow` | Update to latest version |
-| `copilot plugin uninstall paw-workflow` | Remove PAW plugin |
+| `copilot plugin update paw-discovery` | Update to latest version |
+| `copilot plugin uninstall paw-discovery` | Remove PAW plugin |
 
 ## NPM CLI Installation (Alternative)
 
@@ -37,8 +37,8 @@ If you prefer the npm-based installer, or need to install to Claude Code:
 ### Quick Start
 
 ```bash
-npx @paw-workflow/cli install copilot   # Copilot CLI
-npx @paw-workflow/cli install claude    # Claude Code
+npx @paw-discovery/cli install copilot   # Copilot CLI
+npx @paw-discovery/cli install claude    # Claude Code
 ```
 
 This installs PAW agents and skills to `~/.copilot/` or `~/.claude/`, making them available in your CLI sessions.
@@ -94,13 +94,13 @@ See [Two Workflows](two-workflows.md) for detailed usage instructions.
 Check for updates and upgrade:
 
 ```bash
-npx @paw-workflow/cli upgrade
+npx @paw-discovery/cli upgrade
 ```
 
 Or reinstall to get the latest version:
 
 ```bash
-npx @paw-workflow/cli install copilot --force
+npx @paw-discovery/cli install copilot --force
 ```
 
 ## Uninstalling
@@ -108,7 +108,7 @@ npx @paw-workflow/cli install copilot --force
 Remove all PAW files:
 
 ```bash
-npx @paw-workflow/cli uninstall
+npx @paw-discovery/cli uninstall
 ```
 
 This removes installed agents, skills, and the manifest file.
@@ -119,11 +119,11 @@ If you previously installed PAW via the NPM CLI and want to switch to the plugin
 
 1. Uninstall the NPM version first:
    ```bash
-   npx @paw-workflow/cli uninstall
+   npx @paw-discovery/cli uninstall
    ```
 2. Install as a plugin:
    ```bash
-   copilot plugin install lossyrob/phased-agent-workflow
+   copilot plugin install erdemtuna/paw-discovery
    ```
 
 !!! warning
@@ -137,7 +137,7 @@ The package may be corrupted. Try reinstalling:
 
 ```bash
 npm cache clean --force
-npx @paw-workflow/cli install copilot
+npx @paw-discovery/cli install copilot
 ```
 
 ### Files not showing in Copilot CLI

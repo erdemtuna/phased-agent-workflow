@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide will help you get up and running with **Phased Agent Workflow (PAW)** in just a few minutes.
+This guide will help you get up and running with **PAW Discovery** in just a few minutes.
 
 ## Prerequisites
 
@@ -14,11 +14,11 @@ Before you begin, ensure you have:
 
 ## Quick Install
 
-1. **Download** the latest `.vsix` from the [Releases page](https://github.com/lossyrob/phased-agent-workflow/releases)
+1. **Download** the latest `.vsix` from the [Releases page](https://github.com/erdemtuna/paw-discovery/releases)
 
 2. **Install** in VS Code using one of these methods:
     - Command Palette: `Extensions: Install from VSIX...`
-    - Command line: `code --install-extension paw-workflow-X.X.X.vsix`
+    - Command line: `code --install-extension paw-discovery-X.X.X.vsix`
 
 3. **Configure MCP Server** (Recommended): Set up the [GitHub MCP Server](https://github.com/modelcontextprotocol/servers/tree/main/src/github) or [Azure DevOps MCP Server](https://github.com/microsoft/azure-devops-mcp-server) in VS Code for optimal agent integration. See the [MCP Server Setup Guide](https://modelcontextprotocol.io/quickstart/user) for configuration instructions.
 

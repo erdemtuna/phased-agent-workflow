@@ -1,6 +1,6 @@
 # Builds and deploys documentation to GitHub Pages when changes are merged to main.
 # Uses MkDocs with Material theme for static site generation.
-# Publishes to https://lossyrob.github.io/phased-agent-workflow
+# Publishes to https://erdemtuna.github.io/paw-discovery
 name: Deploy Documentation
 
 on:
@@ -61,6 +61,6 @@ jobs:
         if: success()
         run: |
           echo "✅ Documentation deployed successfully!"
-          echo "- Site URL: https://lossyrob.github.io/phased-agent-workflow"
+          echo "- Site URL: https://erdemtuna.github.io/paw-discovery"
           echo "- Source: docs/ and mkdocs.yml"
           echo "- Branch: gh-pages"
