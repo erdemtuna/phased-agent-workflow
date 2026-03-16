@@ -109,6 +109,30 @@ When writing shell commands in agent prompts or documentation, follow these guid
 
 When writing agent prompts, skills, or instructions, follow these guidelines to maximize agent effectiveness while minimizing token usage.
 
+### Write for the Executing Agent, Not a Human Reader
+
+Prompt content (skills, agents, inline instructions) is consumed by an agent as operating instructions. Every line should direct the agent's behavior. Text that explains design rationale, motivates architectural choices, or compares approaches helps a human reader but wastes agent context tokens and dilutes actionable signal.
+
+**Anti-pattern**: Narration and rationale embedded in instructions
+```markdown
+This workflow replaces the rigid spec→plan→implement pipeline with a lighter
+approach that trusts frontier models to make implementation decisions. Unlike
+full PAW, it skips the specification stage entirely.
+```
+
+**Pattern**: Direct the agent's behavior
+```markdown
+Execute stages in order: plan → implement → review → PR. Skip specification.
+```
+
+**Test**: For each sentence, ask: "Does this change what the agent does?" If it only explains *why* or provides background, move it to `docs/` or remove it.
+
+**Common violations**:
+- Design rationale ("this approach was chosen because...")
+- Comparative framing ("unlike X, this does Y...")
+- Philosophy or value statements ("trusts models to...", "designed for...")
+- Background context the agent can't act on ("models have advanced since...")
+
 ### Describe End States, Not Procedures
 
 For autonomous agent tasks, describe desired outcomes rather than prescriptive steps—let the agent reason about how to achieve them. However, keep explicit steps for interactive protocols (user-facing flows where order and presentation matter).
@@ -228,6 +252,17 @@ When reviewing implementation changes, verify cross-artifact consistency:
 - Changes to workflow skills → verify artifact locations, branch patterns, and agent responsibilities match specification
 
 **Source of truth**: `paw-specification.md` → skills reflect the spec for user guidance.
+
+### Agent Content vs Human Documentation
+
+Files in `agents/`, `skills/`, and `prompts/` are **agent-facing content** — they are loaded into LLM context at runtime, not read by humans during normal use. When reviewing changes to these files:
+
+- **Do NOT** suggest adding notes, guidance, or workarounds for human authors/users. Those belong in `docs/`.
+- **Do NOT** treat skill files like documentation pages (e.g., "specialist authors need a reference table here").
+- **DO** evaluate whether the content gives the agent clear, unambiguous instructions.
+- **DO** flag missing behavioral rules or ambiguous agent logic — that's what these files are for.
+
+Human-facing guidance (authoring guides, tutorials, field references) goes in `docs/guide/` or `docs/reference/`. Agent-facing content (behavioral rules, input contracts, execution logic) goes in skills and agents.
 
 ## Integration Testing
 

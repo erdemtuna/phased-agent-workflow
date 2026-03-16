@@ -21,6 +21,7 @@ PAW workflows produce durable Markdown artifacts that trace reasoning and decisi
       reviews/                  # Review artifacts (gitignored)
         planning/               # Planning Documents Review artifacts
         REVIEW-SYNTHESIS.md     # Final review synthesis (society-of-thought / multi-model)
+      Plan.md                   # Lightweight plan (PAW Lite only)
   
   reviews/                      # Review workflow
     PR-<number>/                # Single-repo: PR-123
@@ -334,6 +335,7 @@ When perspectives are active, each finding includes a `**Perspective**` field in
 ### Version Control
 
 - Artifacts committed to Git during development (unless `never-commit` lifecycle)
+- Scratch ignore markers (`.gitignore` files created to keep workflow or scratch directories local-only) are lifecycle markers, not repository artifacts, and should remain untracked
 - Changes tracked through PRs
 - History preserved for traceability
 
