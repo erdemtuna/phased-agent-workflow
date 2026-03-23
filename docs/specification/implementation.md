@@ -17,6 +17,19 @@ The implementation workflow uses a **skills-based architecture**:
 Issue → Specification → Planning → Implementation → Finalization
 ```
 
+## Execution Context
+
+Workflow initialization chooses an **execution checkout** and records it in `WorkflowContext.md`.
+
+- **`current-checkout`** — PAW runs in the currently open repository checkout
+- **`worktree`** — In the VS Code extension, PAW can create or reuse a dedicated worktree, open the workflow there, and leave the caller checkout unchanged. In Copilot CLI, worktree mode assumes the session is already running in the intended execution checkout.
+
+Execution mode is separate from review strategy:
+
+- **Review strategy** controls branch and PR flow inside the execution checkout
+- **Artifact lifecycle** controls whether `.paw/work/` artifacts are committed and does not imply worktree cleanup
+- Older `WorkflowContext.md` files without `Execution Mode` are treated as `current-checkout`
+
 ### Pre-Specification: Work Shaping (Optional)
 
 **Skill:** `paw-work-shaping`
@@ -88,7 +101,7 @@ Map relevant code areas and create a detailed implementation plan broken into ph
 3. Collaborate iteratively to refine the plan
 4. `paw-plan-review` validates plan feasibility **(mandatory)**
 5. `paw-planning-docs-review` reviews all planning artifacts as a holistic bundle **(if enabled)**
-6. Open Planning PR for review (PRs strategy)
+6. Open Planning PR for review from the execution checkout established during initialization/reuse (PRs strategy)
 
 ### Stage 03 — Phased Implementation
 
@@ -112,9 +125,9 @@ Execute plan phases with automated verification, peer review, and quality gates.
 
 For each phase:
 
-1. `paw-implement` creates phase branch and implements changes
-2. `paw-implement` runs automated checks (tests, linting, type checking)
-3. `paw-impl-review` reviews changes, adds documentation
+1. `paw-implement` creates the phase branch and implements changes in the execution checkout established during initialization/reuse
+2. `paw-implement` runs automated checks (tests, linting, type checking, build) and verifies the current phase's `Changes Required` deliverables actually exist before marking the phase complete
+3. `paw-impl-review` reviews changes, cross-checks current-phase deliverables against actual repo state, adds documentation, and blocks missing or empty planned outputs before pushing/opening the Phase PR
 4. `paw-impl-review` pushes and opens Phase PR (PRs strategy)
 5. Human reviews PR and provides feedback
 6. `paw-implement` addresses review comments
@@ -193,7 +206,7 @@ Open the final PR to main with comprehensive description and pre-flight checks.
 
 1. `paw-pr` verifies all prerequisites are complete (including open questions resolution)
 2. `paw-pr` crafts comprehensive PR description with decision audit trail
-3. `paw-pr` opens final PR
+3. `paw-pr` opens the final PR from the target branch in the execution checkout established during initialization/reuse
 4. Address any review comments (using implementation skills)
 5. Merge when approved
 
@@ -231,15 +244,15 @@ Executes plan phases by making code changes and ensures quality by running autom
 
 ### paw-impl-review
 
-Reviews code changes, generates docstrings and comments, commits improvements, pushes branches, and opens PRs. Verifies review comment responses and replies to reviewers.
+Reviews code changes, verifies current-phase deliverables from `ImplementationPlan.md` against actual repo state, generates docstrings and comments, commits improvements, pushes branches, and opens PRs. Verifies review comment responses and replies to reviewers.
 
-**Focus:** Quality gate—making code reviewable.
+**Focus:** Quality gate—making code reviewable and complete against the plan.
 
 ### paw-final-review
 
-Reviews implementation against specification after all phases complete. Supports multi-model parallel review (CLI) or single-model review (VS Code). For society-of-thought mode, delegates SoT orchestration to the `paw-sot` utility skill. Interactive mode presents findings for apply/skip/discuss; non-interactive mode auto-applies.
+Reviews implementation against specification and `ImplementationPlan.md` deliverables after all phases complete. Missing planned deliverables are `should-fix` minimum. Supports multi-model parallel review (CLI) or single-model review (VS Code). For society-of-thought mode, delegates SoT orchestration to the `paw-sot` utility skill. Interactive mode presents findings for apply/skip/discuss; non-interactive mode auto-applies.
 
-**Focus:** Catch issues before external PR review.
+**Focus:** Catch issues and missing planned deliverables before external PR review.
 
 ### paw-planning-docs-review
 
@@ -261,7 +274,7 @@ Reviews all planning artifacts (Spec.md, ImplementationPlan.md, CodeResearch.md)
 
 ### paw-status
 
-Diagnoses current workflow state, recommends next steps, explains PAW process, and posts status updates to Issues/PRs.
+Diagnoses current workflow state, recommends next steps, explains PAW/onboarding, and posts status updates to Issues/PRs.
 
 ### paw-pr
 
@@ -283,4 +296,3 @@ All automated verification criteria must pass regardless of workflow mode:
 - [Review Workflow](review.md) — The complementary review workflow
 - [Agents Reference](../reference/agents.md) — Complete agent documentation
 - [Artifacts Reference](../reference/artifacts.md) — Artifact descriptions
-

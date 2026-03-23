@@ -11,6 +11,8 @@ PAW uses two AI chat modes ("agents") that orchestrate workflow activities throu
 
 Both agents follow the same pattern: a compact orchestrator that loads a workflow skill for guidance, then delegates activities to specialized skills via subagents.
 
+> **Platform runtime note:** Copilot CLI runs installed `agents/`, `skills/`, and prompt content directly. The VS Code extension uses `src/` TypeScript for commands, setup, and handoff, but that code is not executed in CLI sessions.
+
 > **PAW Lite** is available as the `paw-lite` skill — any agent can load it on demand.
 
 ---
@@ -25,10 +27,10 @@ Both agents follow the same pattern: a compact orchestrator that loads a workflo
 
 **Invocation (Copilot CLI):** `copilot --agent PAW` or use `/agent` to select PAW inside a session
 
-**Architecture:** The PAW agent uses a skills-based architecture with a **hybrid execution model**:
+**Architecture:** The PAW agent uses a skills-based architecture with a **hybrid execution model**. Skill loading is platform-specific:
 
 1. Loads the `paw-workflow` skill for orchestration guidance
-2. Discovers available skills dynamically via `paw_get_skills`
+2. Resolves activity skills using the current platform's mechanism (`paw_get_skills` / `paw_get_skill` in VS Code; installed skill files in Copilot CLI)
 3. Delegates activities to specialized skills
 4. Applies Review Policy and Session Policy for workflow control
 
@@ -57,7 +59,7 @@ This preserves conversation flow for interactive work while leveraging fresh con
 | `paw-impl-review` | Review implementation, add docs, open PRs | Phase PRs |
 | `paw-final-review` | Pre-PR review; delegates SoT orchestration to `paw-sot` | REVIEW*.md in reviews/ |
 | `paw-pr` | Pre-flight validation, create final PR | Final PR |
-| `paw-status` | Diagnose workflow state, recommend next steps | Status reports |
+| `paw-status` | Diagnose workflow state, recommend next steps, explain PAW/onboarding | Status reports |
 | `paw-lite` | Lightweight workflow: plan → fleet-implement → review → PR | Plan.md |
 
 **Utility Skills:**
@@ -121,7 +123,7 @@ This preserves conversation flow for interactive work while leveraging fresh con
 
 **Invocation (Copilot CLI):** `copilot --agent PAW-Review` then provide the PR number or URL
 
-**Architecture:** The PAW Review agent uses a skills-based architecture:
+**Architecture:** The PAW Review agent uses a skills-based architecture. The shared review logic lives in skills; VS Code-specific automation remains in `src/` only.
 
 1. Loads the `paw-review-workflow` skill for orchestration
 2. Executes activity skills via subagents for each stage
@@ -198,6 +200,7 @@ The PAW agent understands natural language requests and routes them to appropria
 - "Research how X works" → `paw-spec-research` or `paw-code-research`
 - "Create an implementation plan" → `paw-planning` skill
 - "Implement phase N" → `paw-implement` skill
+- "What is PAW?" or "How do I get started?" → `paw-status` skill
 - "What's the status?" → `paw-status` skill
 
 ### Review Policy Modes
